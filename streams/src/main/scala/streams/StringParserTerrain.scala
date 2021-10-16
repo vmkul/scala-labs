@@ -50,7 +50,16 @@ trait StringParserTerrain extends GameDef {
    * a valid position (not a '-' character) inside the terrain described
    * by `levelVector`.
    */
-  def terrainFunction(levelVector: Vector[Vector[Char]]): Pos => Boolean = ???
+  def terrainFunction(levelVector: Vector[Vector[Char]]): Pos => Boolean = {
+    (p: Pos) => {
+      val maxRowIndex = levelVector.length - 1
+      val maxColIndex = levelVector(0).length - 1
+
+      if (p.row < 0 || p.row > maxRowIndex || 
+        p.col < 0 || p.col > maxColIndex) false
+      else levelVector(p.row)(p.col) != '-'
+    } 
+  }
 
   /**
    * This function should return the position of character `c` in the
@@ -60,7 +69,11 @@ trait StringParserTerrain extends GameDef {
    * Hint: you can use the functions `indexWhere` and / or `indexOf` of the
    * `Vector` class
    */
-  def findChar(c: Char, levelVector: Vector[Vector[Char]]): Pos = ???
+  def findChar(c: Char, levelVector: Vector[Vector[Char]]): Pos = {
+    val row = levelVector.indexWhere(x => x.contains(c))
+    val col = levelVector(row).indexOf(c)
+    Pos(row, col)
+  }
 
   private lazy val vector: Vector[Vector[Char]] =
     Vector(level.split("\r?\n").map(str => Vector(str: _*)).toIndexedSeq: _*)
