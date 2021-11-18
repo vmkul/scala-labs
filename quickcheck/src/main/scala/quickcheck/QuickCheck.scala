@@ -11,7 +11,7 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap:
     const(empty),
     for {
       x <- arbitrary[Int]
-      h <- oneOf(const(empty), genHeap)
+      h <- genHeap
     } yield insert(x, h)
   )
   given Arbitrary[H] = Arbitrary(genHeap)
