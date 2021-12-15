@@ -224,20 +224,20 @@ trait DecoderInstances:
     // return the decoded item **prepended** to the `previouslyDecodedItems`.
     def decodeAndPrepend(item: Json, previouslyDecodedItems: List[A]): Option[List[A]] =
       val decoded = item.decodeAs[A]
-      decoded match {
+      decoded match 
         case Some(value) => Option(value +: previouslyDecodedItems)
         case _ => None
-      }
+
     // Decode the provided `item` only if the previous items were successfully decoded.
     // In case `maybePreviouslyDecodedItems` is `None` (which means that at least
     // one of the previous items failed to be decoded), return `None`.
     // Otherwise, decode the provided `item` and prepend it to the previously
     // decoded items (use the method `decodeAndPrepend`).
     def processItem(item: Json, maybePreviouslyDecodedItems: Option[List[A]]): Option[List[A]] =
-      maybePreviouslyDecodedItems match {
+      maybePreviouslyDecodedItems match
         case Some(items) => decodeAndPrepend(item, items)
         case None => None
-      }
+
     // Decodes all the provided JSON items. Fails if any item fails to
     // be decoded.
     // Iterates over the items, and tries to decode each item if the
